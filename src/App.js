@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import {QueryClient,QueryClientProvider} from '@tanstack/react-query'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+import './App.css'
+import {Home} from './Pages/Home/Home'
+import AddContact from './Pages/AddContact/AddContact'
+import ViewContact from './Pages/ViewContact/View-Contact'
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+    <Router>
+      <div>
+        <nav className='container'>
+         
+              <Link to='/contact'>Contacts</Link>
+            
+              <Link to='/add-contact'>Add Contact</Link>
+        
+        </nav>
+        <Routes>
+          <Route path='/add-contact' element={<AddContact />} />
+          <Route path="/contact/:id" element={<ViewContact/>}/>
+         
+          {/* <Route path='/rq-super-heroes' element={ <RQSuperHeroesPage />}/> */}
+          <Route path='/contact' element={<Home/>} />
+            
+        </Routes>
+      </div>
+    </Router>
+    <ReactQueryDevtools initialIsOpen={false} position="bottom-right"/>
+    </QueryClientProvider>
+  )
 }
 
-export default App;
+export default App
